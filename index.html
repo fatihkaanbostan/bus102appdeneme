@@ -12,6 +12,7 @@
 body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:#17231D;line-height:1.5}
 h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;margin:0;letter-spacing:-.01em}
 .sub{font-size:13px;color:var(--m)}
+.info{font-size:12px;color:var(--m);margin-top:6px}
 #side{position:fixed;inset:0 auto 0 0;width:230px;background:#fff;border-right:1px solid var(--l);padding:22px 14px;display:flex;flex-direction:column;gap:4px}
 .logo{font-family:'Fraunces',serif;font-size:22px;font-weight:600;color:var(--b);padding:0 10px 18px}
 #side button{display:flex;align-items:center;gap:10px;text-align:left;border:0;background:none;padding:12px 14px;border-radius:12px;font-size:15px;font-weight:500;color:var(--m);cursor:pointer;font-family:inherit;transition:background .2s,color .2s,transform .15s}
@@ -44,7 +45,7 @@ button.x{background:none;border:0;color:#8C2A1C;font-size:22px;cursor:pointer;mi
 input[type=text],input[type=number],input[type=search],select{width:100%;min-height:44px;border:1.5px solid var(--l);border-radius:12px;padding:0 12px;font-size:15px;font-family:inherit;background:#fff}
 input:focus,select:focus{outline:2px solid var(--a);outline-offset:1px}
 label.c{display:inline-flex;align-items:center;gap:6px;margin-right:14px;font-size:14px;min-height:44px}
-.tile{height:96px;border-radius:14px;margin:-4px -4px 12px;display:flex;align-items:flex-end;padding:10px 12px;font-family:'Fraunces',serif;font-size:40px;color:rgba(23,35,29,.55);overflow:hidden;position:relative}
+.tile{height:120px;border-radius:14px;margin:-4px -4px 12px;display:flex;align-items:center;justify-content:center;font-size:56px;overflow:hidden;position:relative}
 .bar{height:10px;background:#EEE9DE;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--b);border-radius:99px;transition:width .8s cubic-bezier(.2,.7,.2,1)}.bar.over i{background:#B3341F}
 .ring circle{fill:none;stroke-width:9}.ring .bg{stroke:#EEE9DE}.ring .fg{stroke:var(--b);stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset 1s cubic-bezier(.2,.7,.2,1)}
 .ph{border:2px dashed #CFC8B8;border-radius:16px;min-height:150px;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;color:var(--m);font-size:13px;background:#fff}
@@ -59,6 +60,8 @@ label.c{display:inline-flex;align-items:center;gap:6px;margin-right:14px;font-si
 .vf{aspect-ratio:16/9;width:100%;border:0;border-radius:14px;background:#000}
 .toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#17231D;color:#fff;padding:12px 20px;border-radius:99px;font-size:14px;z-index:30;animation:up .3s both}
 .box{background:#fff;border:1px solid var(--l);border-radius:14px;padding:12px;margin-bottom:10px}
+ol.st{padding-left:22px;margin:8px 0 16px}ol.st li{margin-bottom:10px}
+.note{background:#FCE9CF;color:#8A4A0B;border-radius:12px;padding:10px 12px;font-size:12.5px;margin-bottom:12px}
 @media(max-width:860px){#side{inset:auto 0 0 0;width:100%;flex-direction:row;padding:0 0 env(safe-area-inset-bottom);border-right:0;border-top:1px solid var(--l);z-index:10}.logo,.fn{display:none}#side button{flex:1;flex-direction:column;gap:2px;padding:10px 2px;font-size:11.5px;border-radius:0;text-align:center}.dot{display:none}main{margin:0;padding:22px 16px 96px}h2{font-size:24px}.toast{bottom:84px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 </style>
@@ -75,22 +78,104 @@ label.c{display:inline-flex;align-items:center;gap:6px;margin-right:14px;font-si
 <main id="v"></main><div id="m"></div>
 <script>
 // ===== VERİ (ÖRNEK) =====
-const ING={pirinc:'Pirinç',mercimek:'Kırmızı mercimek',tavuk:'Tavuk göğsü',yumurta:'Yumurta',makarna:'Makarna',peynir:'Beyaz peynir',yogurt:'Yoğurt',nohut:'Nohut',barbunya:'Barbunya',sebze:'Karışık sebze',zeytinyagi:'Zeytinyağı'};
-// [malzeme, ad, gluten, laktoz, fiyat]  f=içermez(doğrulanmış) c=içerir u=bilgi yok
-const P=[['pirinc','Pirinç · Ürün 1','f','f',55],['pirinc','Pirinç · Ürün 2','u','f',42],['mercimek','Mercimek · Ürün 1','f','f',48],['mercimek','Mercimek · Ürün 2','u','f',36],['tavuk','Tavuk göğsü · Ürün 1','f','f',140],['tavuk','Marine tavuk · Ürün 2','c','f',120],['yumurta','Yumurta 10\'lu · Ürün 1','f','f',70],['makarna','Makarna · Ürün 1','c','f',30],['makarna','Glutensiz makarna · Ürün 2','f','f',85],['makarna','Glutensiz makarna · Ürün 3','u','f',65],['peynir','Beyaz peynir · Ürün 1','f','c',110],['peynir','Laktozsuz peynir · Ürün 2','f','f',150],['peynir','Beyaz peynir · Ürün 3','u','c',95],['yogurt','Yoğurt · Ürün 1','f','c',60],['yogurt','Laktozsuz yoğurt · Ürün 2','f','f',85],['nohut','Nohut · Ürün 1','f','f',50],['nohut','Nohut · Ürün 2','u','f',38],['barbunya','Barbunya · Ürün 1','f','f',58],['sebze','Donmuş sebze · Ürün 1','u','f',45],['sebze','Donmuş sebze · Ürün 2','f','f',60],['zeytinyagi','Zeytinyağı · Ürün 1','f','f',320]];
-// [ad, malzemeler, yapılış, süre(dk)]
-const RC=[['Mercimek çorbası',['mercimek','sebze','zeytinyagi'],'Mercimeği ve sebzeyi haşlayın, zeytinyağıyla pişirip blenderdan geçirin.',30],['Fırın tavuk, pirinç pilavı',['tavuk','pirinc','sebze'],'Tavuğu sebzeyle fırınlayın, pilavı yanında servis edin.',45],['Sebzeli omlet',['yumurta','sebze','peynir'],'Sebzeyi soteleyin, yumurta ve peyniri ekleyip pişirin.',15],['Zeytinyağlı barbunya',['barbunya','sebze','zeytinyagi'],'Barbunyayı sebzeyle zeytinyağında pişirin, soğuk servis edin.',35],['Nohutlu pilav',['nohut','pirinc','zeytinyagi'],'Haşlanmış nohutu pilava karıştırın.',30],['Peynirli makarna',['makarna','peynir'],'Makarnayı haşlayıp peynirle karıştırın.',20],['Sebzeli makarna',['makarna','sebze','zeytinyagi'],'Makarnayı haşlayın, sebzeyle zeytinyağında soteleyin.',25],['Yoğurtlu tavuk, pilav',['tavuk','yogurt','pirinc'],'Haşlanmış tavuğu pilav ve yoğurtla servis edin.',40]];
+const ING={pirinc:'Pirinç',mercimek:'Kırmızı mercimek',tavuk:'Tavuk göğsü',yumurta:'Yumurta',makarna:'Makarna',peynir:'Beyaz peynir',yogurt:'Yoğurt',nohut:'Nohut',barbunya:'Barbunya',sebze:'Karışık sebze',zeytinyagi:'Zeytinyağı',sogan:'Soğan',havuc:'Havuç',patates:'Patates',domates:'Domates'};
+// Paket boyu: [miktar, birim]. Alışveriş listesi tarif miktarlarını bu paketlere yuvarlar.
+const PK={pirinc:[1000,'g'],mercimek:[1000,'g'],tavuk:[1000,'g'],yumurta:[10,'adet'],makarna:[500,'g'],peynir:[500,'g'],yogurt:[1000,'g'],nohut:[1000,'g'],barbunya:[1000,'g'],sebze:[450,'g'],zeytinyagi:[1000,'ml'],sogan:[1000,'g'],havuc:[1000,'g'],patates:[1000,'g'],domates:[1000,'g']};
+// Tüm ürün verileri ÖRNEKTİR. Gerçek veriye geçince SRC metnini ve LB.ok etiketini güncelleyin.
+const SRC='Kaynak: örnek veri · Son kontrol: yok';
+// [malzeme, ad, gluten, laktoz, paket fiyatı, çapraz bulaşma, içindekiler]
+// gluten/laktoz: f=içermez c=içerir u=bilgi yok · çapraz bulaşma: ''=bilgi yok, rg=eser gluten riski, rl=eser süt riski
+const P=[
+['pirinc','Pirinç · A Markası','f','f',55,'','Pirinç'],
+['pirinc','Pirinç · B Markası','u','f',42,'rg','Pirinç; aynı tesiste gluten içeren ürünler işlenebilir'],
+['mercimek','Mercimek · A Markası','f','f',48,'','Kırmızı mercimek'],
+['mercimek','Mercimek · B Markası','u','f',36,'','Kırmızı mercimek; gluten bilgisi belirtilmemiş'],
+['tavuk','Tavuk göğsü · A Markası','f','f',140,'','Tavuk göğsü'],
+['tavuk','Marine tavuk · B Markası','c','f',120,'','Tavuk, buğday içeren marine sosu'],
+['yumurta','Yumurta 10 adet · A Markası','f','f',70,'','Yumurta'],
+['makarna','Makarna · A Markası','c','f',30,'','Buğday irmiği'],
+['makarna','Glutensiz makarna · B Markası','f','f',85,'','Mısır unu, pirinç unu'],
+['makarna','Glutensiz makarna · C Markası','u','f',65,'','Mısır unu; glutensiz ibaresi doğrulanmadı'],
+['peynir','Beyaz peynir · A Markası','f','c',110,'','Süt, tuz, peynir mayası'],
+['peynir','Laktozsuz peynir · B Markası','f','f',150,'','Laktozsuz süt, tuz, peynir mayası'],
+['peynir','Beyaz peynir · C Markası','u','c',95,'','Süt, tuz; gluten bilgisi yok'],
+['yogurt','Yoğurt · A Markası','f','c',60,'','Süt, yoğurt kültürü'],
+['yogurt','Laktozsuz yoğurt · B Markası','f','f',85,'','Laktozsuz süt, yoğurt kültürü'],
+['nohut','Nohut · A Markası','f','f',50,'','Nohut'],
+['nohut','Nohut · B Markası','u','f',38,'','Nohut; gluten bilgisi belirtilmemiş'],
+['barbunya','Barbunya · A Markası','f','f',58,'','Barbunya'],
+['sebze','Donmuş sebze · A Markası','u','f',45,'','Sebze karışımı; sos/katkı bilgisi yok'],
+['sebze','Donmuş sebze · B Markası','f','f',60,'','Havuç, bezelye, mısır'],
+['zeytinyagi','Zeytinyağı · A Markası','f','f',320,'','Zeytinyağı'],
+['patates','Patates · A Markası','f','f',30,'','Patates'],
+['havuc','Havuç · A Markası','f','f',25,'','Havuç'],
+['domates','Domates · A Markası','f','f',45,'','Domates'],
+['sogan','Soğan · A Markası','f','f',20,'','Soğan']];
+// ===== TARİFLER =====
+// R(ad, kişi sayısı, süre dk, emoji, açıklama, [[malzeme, miktar(g/ml/adet), 'yazılı ölçü']], [yapılış adımları], 'ek malzemeler', 'YouTube linki/kimliği', 'görsel URL (isteğe bağlı)')
+const RC=[];
+function R(n,s,m,em,d,am,st,ex,vid,img){RC.push([n,am.map(a=>a[0]),d,m,s,am,st,ex,vid||'',img||'',em])}
+R('Mercimek çorbası',4,35,'🍲','Klasik, kıvamlı kırmızı mercimek çorbası.',
+[['mercimek',200,'1 su bardağı kırmızı mercimek (200 g)'],['sogan',100,'1 orta boy soğan (100 g)'],['havuc',100,'1 orta boy havuç (100 g)'],['patates',150,'1 orta boy patates (150 g)'],['zeytinyagi',30,'2 yemek kaşığı zeytinyağı (30 ml)']],
+['Mercimeği soğuk suda berrak akana kadar yıkayıp süzün. Soğanı, havucu ve patatesi küçük küp doğrayın.','Tencerede zeytinyağını ısıtın, soğanı 3-4 dakika pembeleşene kadar kavurun. Havuç ve patatesi ekleyip 2 dakika çevirin.','Mercimeği ve 6 su bardağı (1,2 litre) sıcak suyu ekleyin. Kaynayınca ateşi kısın, kapağı aralık bırakıp 25 dakika pişirin.','1 tatlı kaşığı tuz ve 1 çay kaşığı kimyon ekleyin, blenderla pürüzsüz çekin. Çok koyuysa sıcak su ekleyin. İsterseniz limon sıkarak servis edin.'],
+'6 su bardağı sıcak su, 1 tatlı kaşığı tuz, 1 çay kaşığı kimyon, yarım limon (isteğe bağlı)','https://www.youtube.com/watch?v=V2wONbfQILw');
+R('Fırın tavuk, pirinç pilavı',4,55,'🍗','Sebzeli fırın tavuk ve tane tane pirinç pilavı.',
+[['tavuk',600,'600 g tavuk göğsü (yaklaşık 3 adet)'],['sebze',300,'300 g karışık sebze (yaklaşık 2 su bardağı)'],['pirinc',200,'1 su bardağı pirinç (200 g)'],['zeytinyagi',45,'3 yemek kaşığı zeytinyağı (45 ml)']],
+['Fırını 200 °C’ye ısıtın. Tavukları 2 yemek kaşığı zeytinyağı, 1 çay kaşığı tuz ve yarım çay kaşığı karabiberle ovun.','Tavukları ve sebzeleri yağlı kağıt serili tepsiye dizin. 30-35 dakika, tavuğun içi pembeliğini kaybedene kadar pişirin.','Pirinci yıkayıp 10 dakika ılık suda bekletin, süzün. Tencerede 1 yemek kaşığı zeytinyağında 2 dakika kavurun.','1,5 su bardağı sıcak su ve yarım çay kaşığı tuz ekleyin. Kapağı kapalı, kısık ateşte 12-15 dakika pişirin, 10 dakika demlendirip tavukla servis edin.'],
+'tuz, karabiber, 1,5 su bardağı sıcak su','https://www.youtube.com/watch?v=hdlptEe_kfU');
+R('Sebzeli omlet',2,15,'🍳','Hızlı, doyurucu sebzeli peynirli omlet.',
+[['yumurta',4,'4 adet yumurta'],['sebze',150,'150 g karışık sebze (1 su bardağı)'],['peynir',60,'60 g beyaz peynir (4 yemek kaşığı ezilmiş)'],['zeytinyagi',15,'1 yemek kaşığı zeytinyağı (15 ml)']],
+['Sebzeleri (donmuşsa çözdürüp) tavada zeytinyağında 4-5 dakika, suyunu çekene kadar soteleyin.','Yumurtaları kasede çırpın, yarım çay kaşığı tuz ve bir tutam karabiber ekleyin.','Yumurtayı sebzelerin üzerine dökün, kısık ateşte kapağı kapalı 4-5 dakika pişirin.','Peyniri üzerine serpip 1 dakika daha pişirin, ikiye katlayıp sıcak servis edin.'],
+'yarım çay kaşığı tuz, karabiber','https://www.youtube.com/watch?v=musZ31HURws');
+R('Zeytinyağlı barbunya',4,45,'🫘','Soğuk servis edilen klasik zeytinyağlı yemek.',
+[['barbunya',200,'200 g kuru barbunya (gece ıslatılmış, yaklaşık 2 su bardağı haşlanmış)'],['sogan',100,'1 orta boy soğan (100 g)'],['havuc',100,'1 orta boy havuç (100 g)'],['domates',200,'2 orta boy domates (200 g)'],['zeytinyagi',45,'3 yemek kaşığı zeytinyağı (45 ml)']],
+['Islatılmış barbunyayı süzüp yeni suda 30-40 dakika yumuşayana kadar haşlayın, süzün.','Soğanı yarım ay, havucu yarım yuvarlak doğrayın. Domatesi rendeleyin.','Tencerede zeytinyağında soğanı 4 dakika, havucu 2 dakika kavurun. Domatesi ekleyip 5 dakika pişirin.','Barbunyayı, 1 su bardağı sıcak suyu, 1 çay kaşığı tuz ve 1 tatlı kaşığı şeker ekleyin. Kısık ateşte 15 dakika pişirin, soğuyunca servis edin.'],
+'1 su bardağı sıcak su, 1 çay kaşığı tuz, 1 tatlı kaşığı şeker','https://www.youtube.com/watch?v=VX8QKK7w9XA');
+R('Nohutlu pilav',4,60,'🍚','Nohudun doyuruculuğuyla pirinç pilavı.',
+[['nohut',150,'150 g kuru nohut (gece ıslatılmış, yaklaşık 1,5 su bardağı haşlanmış)'],['pirinc',200,'1 su bardağı pirinç (200 g)'],['zeytinyagi',30,'2 yemek kaşığı zeytinyağı (30 ml)']],
+['Islatılmış nohudu 40-45 dakika yumuşayana kadar haşlayın; süzerken 1,5 su bardağı haşlama suyunu ayırın.','Pirinci yıkayıp 10 dakika ılık suda bekletin, süzün.','Tencerede zeytinyağında pirinci 2 dakika kavurun. Nohudu, ayırdığınız sıcak haşlama suyunu ve 1 çay kaşığı tuzu ekleyin.','Kapağı kapalı, kısık ateşte 12-15 dakika pişirin; 10 dakika demlendirip servis edin.'],
+'1 çay kaşığı tuz','https://www.youtube.com/watch?v=t1U8hUNDg4M');
+R('Peynirli makarna',3,20,'🍝','Az malzemeli, çabuk hazırlanan peynirli makarna.',
+[['makarna',250,'250 g makarna (glutensiz olmalı)'],['peynir',100,'100 g beyaz peynir (1 su bardağı ufalanmış)'],['zeytinyagi',15,'1 yemek kaşığı zeytinyağı (15 ml)']],
+['Büyük tencerede 2 litre suyu kaynatın, 1 tatlı kaşığı tuz ekleyin.','Makarnayı paket süresine göre (glutensiz makarnalar genelde 8-10 dakika) haşlayıp süzün.','Tavada zeytinyağını ısıtın, makarnayı 1 dakika çevirin.','Ufalanmış peyniri ekleyip karıştırın, peynir yumuşayınca sıcak servis edin.'],
+'2 litre su, 1 tatlı kaşığı tuz, karabiber (isteğe bağlı)','https://www.youtube.com/watch?v=ZHVGxSTZBUg');
+R('Sebzeli makarna',3,25,'🥦','Zeytinyağında soteli sebzelerle makarna.',
+[['makarna',250,'250 g makarna (glutensiz olmalı)'],['sebze',300,'300 g karışık sebze (yaklaşık 2 su bardağı)'],['zeytinyagi',30,'2 yemek kaşığı zeytinyağı (30 ml)']],
+['Makarnayı 2 litre tuzlu suda paket süresine göre haşlayıp süzün.','Tavada zeytinyağında sebzeleri 6-8 dakika yumuşayana kadar soteleyin. Yarım çay kaşığı tuz ve karabiber ekleyin.','Makarnayı sebzelere ekleyip 2 dakika çevirin ve servis edin.'],
+'2 litre su, 1 tatlı kaşığı tuz, karabiber','https://www.youtube.com/watch?v=oIgxLno3LnY&t=13s');
+R('Yoğurtlu tavuk, pilav',4,45,'🥣','Haşlanmış tavuk, pilav ve soğuk yoğurt.',
+[['tavuk',400,'400 g tavuk göğsü (yaklaşık 2 adet)'],['yogurt',300,'1,5 su bardağı yoğurt (300 g)'],['pirinc',200,'1 su bardağı pirinç (200 g)']],
+['Tavuğu 4 su bardağı kaynar suda, 1 çay kaşığı tuzla 20 dakika haşlayın; 1,5 su bardağı tavuk suyunu ayırın. Tavuğu didikleyin.','Pirinci yıkayıp 10 dakika ılık suda bekletin. Ayırdığınız tavuk suyuyla kapağı kapalı, kısık ateşte 12-15 dakika pişirin; 10 dakika demlendirin.','Yoğurdu çatalla çırpıp bir tutam tuzla karıştırın.','Pilavı tabağa alın, üzerine tavuğu ve yoğurdu ekleyip servis edin.'],
+'4 su bardağı su, 1 çay kaşığı tuz','https://www.youtube.com/watch?v=h_tz3gYfmTc');
+R('Fırında patates ve tavuk',4,60,'🥔','Tek tepside patatesli, soğanlı fırın tavuk.',
+[['tavuk',600,'600 g tavuk göğsü (yaklaşık 3 adet)'],['patates',600,'4 orta boy patates (600 g)'],['sogan',150,'1 büyük soğan (150 g)'],['zeytinyagi',45,'3 yemek kaşığı zeytinyağı (45 ml)']],
+['Fırını 200 °C’ye ısıtın. Patatesleri iri küp, soğanı yarım ay doğrayın.','Tavuğu ve sebzeleri tepside 3 yemek kaşığı zeytinyağı, 1,5 çay kaşığı tuz ve yarım çay kaşığı karabiberle karıştırın.','İlk 25 dakika üzeri folyo kapalı, sonra folyoyu açıp 25-30 dakika daha pişirin. Tavuğun içi pembeliğini kaybetmelidir.'],
+'1,5 çay kaşığı tuz, yarım çay kaşığı karabiber','https://www.youtube.com/watch?v=iYWls562iLM');
+R('Havuçlu nohut yemeği',4,70,'🥕','Domatesli, zeytinyağlı havuçlu nohut.',
+[['nohut',200,'200 g kuru nohut (gece ıslatılmış)'],['havuc',200,'2 orta boy havuç (200 g)'],['sogan',100,'1 orta boy soğan (100 g)'],['domates',200,'2 orta boy domates (200 g)'],['zeytinyagi',45,'3 yemek kaşığı zeytinyağı (45 ml)']],
+['Islatılmış nohudu 40-45 dakika haşlayıp süzün.','Zeytinyağında ince doğranmış soğanı 4 dakika kavurun; havuçları ekleyip 3 dakika çevirin.','Rendelenmiş domatesi ekleyip 5 dakika pişirin.','Nohudu, 1,5 su bardağı sıcak suyu ve 1 çay kaşığı tuzu ekleyin; kısık ateşte 15 dakika pişirin.'],
+'1,5 su bardağı sıcak su, 1 çay kaşığı tuz','https://www.youtube.com/watch?v=UL7mDi4I6ZA');
+R('Menemen',2,20,'🍅','Domatesli, yumuşak kıvamlı menemen.',
+[['yumurta',4,'4 adet yumurta'],['domates',300,'3 orta boy domates (300 g)'],['sogan',50,'yarım orta boy soğan (50 g)'],['zeytinyagi',30,'2 yemek kaşığı zeytinyağı (30 ml)']],
+['Soğanı ince doğrayıp zeytinyağında 3 dakika kavurun.','Domatesleri küp doğrayıp ekleyin, suyunu çekene kadar 8-10 dakika pişirin. Yarım çay kaşığı tuz ekleyin.','Yumurtaları kırıp hafifçe karıştırın, kısık ateşte 3-4 dakika, istediğiniz kıvama gelene kadar pişirin.'],
+'yarım çay kaşığı tuz','https://www.youtube.com/watch?v=767O8uAUHlU');
+R('Mercimekli pilav',4,35,'🍛','Mercimekle zenginleşen soğanlı pilav.',
+[['mercimek',100,'yarım su bardağı kırmızı mercimek (100 g)'],['pirinc',200,'1 su bardağı pirinç (200 g)'],['sogan',100,'1 orta boy soğan (100 g)'],['zeytinyagi',30,'2 yemek kaşığı zeytinyağı (30 ml)']],
+['Mercimeği ve pirinci ayrı ayrı yıkayın; pirinci 10 dakika ılık suda bekletip süzün.','Soğanı küp doğrayıp zeytinyağında 4 dakika kavurun.','Mercimeği ekleyip 1 dakika çevirin, pirinci ekleyip 2 dakika daha kavurun.','2,5 su bardağı sıcak su ve 1 çay kaşığı tuz ekleyin. Kapağı kapalı, kısık ateşte 15 dakika pişirin, 10 dakika demlendirin.'],
+'2,5 su bardağı sıcak su, 1 çay kaşığı tuz','https://www.youtube.com/watch?v=0s97l4BZvc4');
 // VİDEOLAR: id alanına YouTube linkini ya da 11 karakterlik video kimliğini yazabilirsiniz.
-const VIDEOS=[{id:'https://youtu.be/yiNTqUU-h6w?si=lHNwF9lPFKtp7HXn',t:'Çapraz bulaşmadan korunma',d:'Mutfakta güvenli hazırlık'},{id:'https://youtu.be/R-o-83k8dP0?si=bOJaBMtltsBi4H5Y',t:'Ürün etiketi nasıl okunur?',d:'Gizli gluten kaynakları'},{id:'https://youtu.be/F3nw8P-Te64?si=mjJV5USr2CGRbS2R',t:'Glutensiz mutfak düzeni',d:'Ortak mutfakta ayrım'},{id:'https://youtu.be/EZdi3J3ARaQ?si=i7HnQb3YVHxObYW8',t:'Haftalık menü hazırlığı',d:'Pratik planlama'}];
+const VIDEOS=[{id:'https://www.youtube.com/watch?v=yiNTqUU-h6w&t=6s',t:'Çapraz bulaşmadan korunma',d:'Mutfakta güvenli hazırlık'},{id:'https://youtu.be/R-o-83k8dP0?si=bOJaBMtltsBi4H5Y',t:'Ürün etiketi nasıl okunur?',d:'Gizli gluten kaynakları'},{id:'https://youtu.be/F3nw8P-Te64?si=mjJV5USr2CGRbS2R',t:'Glutensiz mutfak düzeni',d:'Ortak mutfakta ayrım'},{id:'https://youtu.be/EZdi3J3ARaQ?si=i7HnQb3YVHxObYW8',t:'Haftalık menü hazırlığı',d:'Pratik planlama'},{id:'https://youtu.be/Qq095oo7qqw?si=G_YhLu6QeEmkTtoA',t:'Çölyak hastalığı nedir?',d:'Belirtiler ve tanı süreci'},{id:'https://www.youtube.com/watch?v=NHl-xwiEGSQ',t:'Çocuklarda çölyak',d:'Aileler için rehber'},{id:'https://www.youtube.com/watch?v=t2ozT7vvAEk',t:'Glutensiz alışveriş ipuçları',d:'Markette doğru seçim'},{id:'https://www.youtube.com/watch?v=XLA8BYnx5io',t:'Dışarıda güvenli yemek',d:'Restoran ve seyahatte glutensiz beslenme'}];
 const yt=s=>{s=String(s||'');const m=s.match(/(?:youtu\.be\/|[?&]v=|embed\/|shorts\/)([\w-]{11})/)||s.match(/^([\w-]{11})$/);return m?m[1]:''};
 const ytT=s=>{const m=String(s||'').match(/[?&#]t=(\d+)/);return m?m[1]:0};
-const DAY=['Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi','Pazar'],LB={ok:'Doğrulanmış',warn:'Bilgi yetersiz',no:'Uygun değil',home:'Evde var'},RK={ok:0,warn:1,no:2};
+const DAY=['Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi','Pazar'],LB={ok:'Uygun (örnek veri)',warn:'Bilgi yetersiz',no:'Uygun değil',home:'Evde var'},RK={ok:0,warn:1,no:2};
 // ===== DURUM =====
 const $=s=>document.querySelector(s),esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
-let S=(()=>{try{const x=JSON.parse(localStorage.getItem('gs2'));if(x&&x.plan&&x.plan.length==7)return Object.assign(x,{openR:null,vid:null,q:'',f:'all'})}catch(e){}return{members:[{n:'Efe',c:1,l:1}],budget:1500,pantry:[],plan:Array(7).fill(null),sel:{},chk:{},tab:'home',openR:null,vid:null,q:'',f:'all'}})();
-const save=()=>{try{localStorage.setItem('gs2',JSON.stringify(S))}catch(e){}};
+let S=(()=>{try{const x=JSON.parse(localStorage.getItem('gs2'));if(x&&x.plan&&x.plan.length==7&&x.plan.every(i=>i==null||RC[i]))return Object.assign(x,{man:x.man||[],openR:null,vid:null,q:'',f:'all'})}catch(e){}return{members:[{n:'Efe',c:1,l:1}],budget:1500,pantry:[],plan:Array(7).fill(null),sel:{},chk:{},man:[],tab:'home',openR:null,vid:null,q:'',f:'all'}})();
+const save=()=>{try{localStorage.setItem('gs2',JSON.stringify(S))}catch(e){toast('Veriler kaydedilemedi')}};
 const req=()=>({g:S.members.some(m=>m.c),l:S.members.some(m=>m.l)});
-function st(p){const r=req(),g=P[p][2],l=P[p][3];if(r.g&&g=='c'||r.l&&l=='c')return'no';if(r.g&&g=='u'||r.l&&l=='u')return'warn';return'ok'}
+// Çapraz bulaşma riski ve bilgi eksikliği güvenli sayılmaz.
+function st(p){const r=req(),g=P[p][2],l=P[p][3],x=P[p][5];if(r.g&&(g=='c'||x=='rg')||r.l&&(l=='c'||x=='rl'))return'no';if(r.g&&g=='u'||r.l&&l=='u')return'warn';return'ok'}
+const xt=p=>({rg:'Eser miktarda gluten içerebilir',rl:'Eser miktarda süt içerebilir'})[P[p][5]]||'Çapraz bulaşma bilgisi yok';
 const ids=k=>P.map((_,i)=>i).filter(i=>P[i][0]==k);
 function best(k){const a=ids(k);if(S.sel[k]!=null&&a.includes(S.sel[k]))return S.sel[k];return a.sort((x,y)=>RK[st(x)]-RK[st(y)]||P[x][4]-P[y][4])[0]}
 const ingSt=k=>S.pantry.includes(k)?'home':st(best(k));
@@ -99,26 +184,37 @@ const okR=()=>RC.map((_,i)=>i).filter(i=>recSt(i)=='ok');
 const tag=s=>`<span class="tag ${s}">${LB[s]}</span>`;
 const hasPlan=()=>S.plan.some(x=>x!=null);
 const listItems=()=>{const a=[];S.plan.forEach(i=>i!=null&&RC[i][1].forEach(k=>{if(!S.pantry.includes(k)&&!a.includes(k))a.push(k)}));return a};
-const total=()=>listItems().reduce((a,k)=>a+P[best(k)][4],0);
-const tile=i=>{const h=140+i*22;return `<div class="tile" style="background:linear-gradient(135deg,hsl(${h} 38% 88%),hsl(${h+25} 42% 76%))">${esc(RC[i][0][0])}</div>`};
-function toast(t){const e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2200)}
+// Miktar = tarif miktarı × (hane kişi sayısı / tarifin kişi sayısı); paket sayısına yukarı yuvarlanır.
+const need=k=>{let q=0;S.plan.forEach(i=>{if(i==null)return;const a=RC[i][5].find(x=>x[0]==k);if(a)q+=a[1]*S.members.length/RC[i][4]});return q};
+const pk=k=>Math.max(1,Math.ceil(need(k)/PK[k][0]-1e-9));
+const cost=k=>pk(k)*P[best(k)][4];
+const manT=()=>S.man.reduce((a,m)=>a+m.p,0);
+const total=()=>listItems().reduce((a,k)=>a+cost(k),0)+manT();
+const spent=()=>listItems().filter(k=>S.chk[k]).reduce((a,k)=>a+cost(k),0)+S.man.filter(m=>m.c).reduce((a,m)=>a+m.p,0);
+const tile=i=>{const h=140+i*22,im=RC[i][9];return `<div class="tile" style="background:${im?`center/cover url('${esc(im)}'),`:''}linear-gradient(135deg,hsl(${h} 38% 88%),hsl(${h+25} 42% 76%))">${im?'':RC[i][10]}</div>`};
+function toast(t){const e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2600)}
 // ===== EYLEMLER =====
 function reset(){S.plan=Array(7).fill(null);S.sel={};S.chk={}}
-function gen(){const o=okR(),sc=i=>RC[i][1].filter(k=>S.pantry.includes(k)).length+Math.random();o.sort((a,b)=>sc(b)-sc(a));if(!o.length){toast('Bu hane için uygun doğrulanmış tarif yok');return}S.plan=Array.from({length:7},(_,d)=>o[d%o.length]);S.chk={};save();toast('Haftalık plan hazır');tab('plan')}
-function swap(d){const o=okR().filter(i=>i!=S.plan[d]);if(o.length){S.plan[d]=o[Math.floor(Math.random()*o.length)];save();draw()}}
+// Ürün/malzeme seçimi değişince güvenli olmayan günler plandan çıkarılır.
+function san(){let n=0;S.plan=S.plan.map(i=>{if(i!=null&&recSt(i)!='ok'){n++;return null}return i});if(n)toast(n+' gün güvenli olmadığı için plandan çıkarıldı')}
+function gen(){const o=okR(),sc=i=>RC[i][1].filter(k=>S.pantry.includes(k)).length+Math.random()*1.5;o.sort((a,b)=>sc(b)-sc(a));if(!o.length){toast('Bu hane için uygun tarif yok');return}S.plan=Array.from({length:7},(_,d)=>o[d%o.length]);S.chk={};save();tab('plan');toast(o.length<7?'Uygun tarif az olduğu için bazı yemekler tekrar ediyor':total()>S.budget?'Dikkat: plan bütçeyi aşıyor':'Haftalık plan hazır')}
+function swap(d){let o=okR().filter(i=>!S.plan.includes(i));if(!o.length)o=okR().filter(i=>i!=S.plan[d]);if(o.length){S.plan[d]=o[Math.floor(Math.random()*o.length)];save();draw()}}
 function del(d){S.plan[d]=null;save();draw()}
 function tab(t){S.tab=t;S.openR=null;S.vid=null;save();draw();scrollTo(0,0)}
-function addM(){const n=$('#nn').value.trim();if(!n)return;S.members.push({n:n.slice(0,20),c:$('#nc').checked?1:0,l:$('#nl').checked?1:0});reset();save();draw()}
+function addM(){const n=$('#nn').value.trim();if(!n){toast('Üye adı girin');return}S.members.push({n:n.slice(0,20),c:$('#nc').checked?1:0,l:$('#nl').checked?1:0});reset();save();draw()}
 function tm(i,f){S.members[i][f]=S.members[i][f]?0:1;reset();save();draw()}
 function rm(i){if(S.members.length<2)return;S.members.splice(i,1);reset();save();draw()}
 function bud(v){S.budget=Math.max(0,Number(v)||0);save();draw()}
 function pan(k){const i=S.pantry.indexOf(k);i<0?S.pantry.push(k):S.pantry.splice(i,1);S.plan=Array(7).fill(null);S.chk={};save();draw()}
-function pick(k,v){S.sel[k]=Number(v);save();draw()}
+function pick(k,v){S.sel[k]=Number(v);san();save();draw()}
 function chk(k){S.chk[k]=!S.chk[k];save();draw()}
+function madd(){const n=$('#mn').value.trim(),p=Number($('#mp').value);if(!n||!(p>=0)||$('#mp').value===''){toast('Ürün adı ve geçerli bir fiyat girin');return}S.man.push({n:n.slice(0,40),p:Math.round(p*100)/100,c:0});save();draw()}
+function mchk(i){S.man[i].c=S.man[i].c?0:1;save();draw()}
+function mdel(i){S.man.splice(i,1);save();draw()}
 function openR(i){S.openR=i;draw()}
 function openV(i){S.vid=i;draw()}
 function cls(){S.openR=null;S.vid=null;draw()}
-function addDay(){const d=Number($('#ad').value);S.plan[d]=S.openR;save();S.openR=null;toast(DAY[d]+' gününe eklendi');draw()}
+function addDay(){if(recSt(S.openR)!='ok'){toast('Bu tarif hane için güvenli değil, plana eklenemez');return}const d=Number($('#ad').value);S.plan[d]=S.openR;save();S.openR=null;toast(DAY[d]+' gününe eklendi');draw()}
 function fl(){const e=$('#rl');if(e)e.innerHTML=rlist()}
 document.addEventListener('keydown',e=>{if(e.key=='Escape')cls()});
 // ===== EKRANLAR =====
@@ -126,18 +222,19 @@ function vHome(){const L=listItems(),tot=total(),pc=S.budget?Math.round(tot/S.bu
 return `<div class="grid">
 <div class="card hero in" style="--i:0"><div><h2>Merhaba</h2><p class="sub" style="max-width:420px;margin:6px 0 0">${hasPlan()?'Haftalık planın hazır. Bugünün menüsüne ve alışveriş listene göz at.':'Haneni tanımla, sana uygun haftalık planı birlikte oluşturalım.'}</p></div><button class="p" onclick="${hasPlan()?"tab('plan')":'gen()'}">${hasPlan()?'Planı aç':'Plan oluştur'}</button></div>
 <div class="card in" style="--i:1"><div class="sub">Bugün · ${DAY[td]}</div>${tr!=null?`<h3 style="margin:6px 0 10px">${esc(RC[tr][0])}</h3><div class="r">${tag(recSt(tr))}<button class="s" onclick="openR(${tr})">Tarif</button></div>`:'<p style="margin:8px 0 12px;color:var(--m)">Bugün için tarif seçilmemiş.</p><button class="s" onclick="tab(\'tarif\')">Tarif seç</button>'}</div>
-<div class="card in r" style="--i:2"><div><div class="sub">Haftalık bütçe</div><h3 style="margin:6px 0">₺${tot} / ₺${S.budget}</h3><div class="sub">${L.length?`%${pc} kullanıldı`:'Liste boş'}</div></div><svg class="ring" width="92" height="92" viewBox="0 0 92 92" role="img" aria-label="Bütçe kullanımı %${pc}"><circle class="bg" cx="46" cy="46" r="38"/><circle class="fg" cx="46" cy="46" r="38" stroke-dasharray="${C}" stroke-dashoffset="${off}" ${pc>100?'style="stroke:#B3341F"':''}/></svg></div>
+<div class="card in r" style="--i:2"><div><div class="sub">Haftalık bütçe</div><h3 style="margin:6px 0">₺${tot} / ₺${S.budget}</h3><div class="sub">${L.length||S.man.length?`%${pc} kullanıldı`:'Liste boş'}</div></div><svg class="ring" width="92" height="92" viewBox="0 0 92 92" role="img" aria-label="Bütçe kullanımı %${pc}"><circle class="bg" cx="46" cy="46" r="38"/><circle class="fg" cx="46" cy="46" r="38" stroke-dasharray="${C}" stroke-dashoffset="${off}" ${pc>100?'style="stroke:#B3341F"':''}/></svg></div>
 <div class="card in" style="--i:3"><div class="sub">Hane</div><h3 style="margin:6px 0">${S.members.length} kişi</h3><div class="sub">Kısıtlar: ${rs.length?rs.join(', '):'yok'} · Uygun tarif: ${okR().length}/${RC.length}</div><button class="s" style="margin-top:10px" onclick="tab('hane')">Düzenle</button></div>
 </div><div class="r" style="margin-top:30px"><h2>Önerilen videolar</h2><button class="s" onclick="tab('video')">Tümü</button></div><div class="grid">${VIDEOS.slice(0,3).map((v,i)=>vcard(v,i,i)).join('')}</div>`}
 function rlist(){const q=S.q.trim().toLowerCase(),a=RC.map((_,i)=>i).filter(i=>RC[i][0].toLowerCase().includes(q)&&(S.f=='all'||(S.f=='ok'&&recSt(i)=='ok')||(S.f=='pan'&&RC[i][1].some(k=>S.pantry.includes(k)))));
-return a.length?a.map((i,n)=>`<div class="card lift in" style="--i:${n}" onclick="openR(${i})" tabindex="0" onkeydown="if(event.key=='Enter')openR(${i})">${tile(i)}<h3>${esc(RC[i][0])}</h3><div class="r" style="margin-top:8px"><span class="sub">${RC[i][3]} dk</span>${tag(recSt(i))}</div></div>`).join(''):'<p class="sub">Eşleşen tarif yok.</p>'}
+return a.length?a.map((i,n)=>`<div class="card lift in" style="--i:${n}" onclick="openR(${i})" tabindex="0" onkeydown="if(event.key=='Enter')openR(${i})">${tile(i)}<h3>${esc(RC[i][0])}</h3><div class="r" style="margin-top:8px"><span class="sub">${RC[i][3]} dk · ${RC[i][4]} kişilik</span>${tag(recSt(i))}</div></div>`).join(''):'<p class="sub">Eşleşen tarif yok.</p>'}
 function vTarif(){const F=[['all','Tümü'],['ok','Hanem için uygun'],['pan','Evdeki malzemeyle']];return `<h2>Tarifler</h2><p class="sub">Etiketler, hane profilinize ve seçili ürünlere göre değişir.</p><div style="margin:16px 0 4px"><input type="search" placeholder="Tarif ara" aria-label="Tarif ara" value="${esc(S.q)}" oninput="S.q=this.value;fl()"></div><div>${F.map(f=>`<button class="chip ${S.f==f[0]?'on':''}" onclick="S.f='${f[0]}';draw()">${f[1]}</button>`).join('')}</div><div class="grid" id="rl">${rlist()}</div>`}
-function vPlan(){const o=okR().length;if(!hasPlan())return `<h2>Haftalık plan</h2><div class="card" style="margin-top:18px;text-align:center;padding:36px"><p style="color:var(--m)">${o?'Henüz plan oluşturulmadı.':'Bu hane profiline uygun doğrulanmış tarif bulunamadı.'}</p>${o?'<button class="p" style="margin-top:12px" onclick="gen()">Plan oluştur</button>':''}</div>`;
-const td=(new Date().getDay()+6)%7;return `<div class="r"><h2>Haftalık plan</h2><button class="s" onclick="gen()">Yeniden oluştur</button></div><p class="sub">Bilgisi yetersiz veya uygun olmayan ürün içeren tarifler otomatik plana alınmaz.</p><div class="grid">${S.plan.map((i,d)=>`<div class="card in" style="--i:${d};${d==td?'border-color:var(--b);border-width:2px':''}"><div class="sub">${DAY[d]}${d==td?' · Bugün':''}</div>${i==null?'<p style="margin:8px 0 12px;color:var(--m)">Boş</p><button class="s" onclick="tab(\'tarif\')">Tarif ekle</button>':`<h3 style="margin:6px 0 10px">${esc(RC[i][0])}</h3><div class="r">${tag(recSt(i))}<span class="sub">${RC[i][3]} dk</span></div><div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap"><button class="s" onclick="openR(${i})">Malzemeler</button><button class="s" onclick="swap(${d})">Değiştir</button><button class="s" onclick="del(${d})">Kaldır</button></div>`}</div>`).join('')}</div>`}
-function vListe(){const L=listItems();if(!L.length)return '<h2>Alışveriş listesi</h2><div class="card" style="margin-top:18px;text-align:center;padding:36px;color:var(--m)">Liste, haftalık plan oluşturulunca hazırlanır.</div>';
-const tot=total(),pc=S.budget?Math.round(tot/S.budget*100):0,over=tot>S.budget;
-return `<h2>Alışveriş listesi</h2><div class="card in" style="margin:18px 0"><div class="r"><span class="sub">Tahmini toplam / bütçe</span><b>₺${tot} / ₺${S.budget}</b></div><div class="bar ${over?'over':''}" style="margin-top:10px"><i style="width:${Math.min(100,pc)}%"></i></div><div class="sub" style="margin-top:8px">${over?`Bütçeyi ₺${tot-S.budget} aşıyor. Ürün seçimini tarif ekranından değiştirebilirsiniz.`:`Bütçenin %${pc}'i kullanıldı, kalan ₺${S.budget-tot}.`}</div></div>
-<div class="grid">${L.map((k,n)=>{const b=best(k);return `<div class="card in" style="--i:${n}"><div class="r"><label class="c" style="margin:0"><input type="checkbox" ${S.chk[k]?'checked':''} onchange="chk('${k}')"><span style="${S.chk[k]?'text-decoration:line-through;color:#8a9a91':''}">${ING[k]}</span></label><b>₺${P[b][4]}</b></div><div class="r" style="margin-top:6px"><span class="sub">${P[b][1]}</span>${tag(st(b))}</div></div>`}).join('')}</div><p class="sub" style="margin-top:14px">Her malzeme için bir paket hesaplanır. Fiyatlar örnektir.</p>`}
+function vPlan(){const o=okR().length;if(!hasPlan())return `<h2>Haftalık plan</h2><div class="card" style="margin-top:18px;text-align:center;padding:36px"><p style="color:var(--m)">${o?'Henüz plan oluşturulmadı.':'Bu hane profiline uygun tarif bulunamadı.'}</p>${o?'<button class="p" style="margin-top:12px" onclick="gen()">Plan oluştur</button>':''}</div>`;
+const td=(new Date().getDay()+6)%7;return `<div class="r"><h2>Haftalık plan</h2><button class="s" onclick="gen()">Yeniden oluştur</button></div><p class="sub">Bilgisi yetersiz veya uygun olmayan ürün içeren tarifler plana alınmaz.</p><div class="grid">${S.plan.map((i,d)=>`<div class="card in" style="--i:${d};${d==td?'border-color:var(--b);border-width:2px':''}"><div class="sub">${DAY[d]}${d==td?' · Bugün':''}</div>${i==null?'<p style="margin:8px 0 12px;color:var(--m)">Boş</p><button class="s" onclick="tab(\'tarif\')">Tarif ekle</button>':`<h3 style="margin:6px 0 10px">${RC[i][10]} ${esc(RC[i][0])}</h3><div class="r">${tag(recSt(i))}<span class="sub">${RC[i][3]} dk</span></div><div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap"><button class="s" onclick="openR(${i})">Tarif</button><button class="s" onclick="swap(${d})">Değiştir</button><button class="s" onclick="del(${d})">Kaldır</button></div>`}</div>`).join('')}</div>`}
+const alt=k=>{const b=best(k);return ids(k).filter(p=>P[p][4]<P[b][4]&&st(p)!='no'&&RK[st(p)]<=RK[st(b)]).sort((x,y)=>P[x][4]-P[y][4])[0]};
+function vListe(){const L=listItems(),tot=total(),pc=S.budget?Math.round(tot/S.budget*100):0,over=tot>S.budget,sp=spent();
+const items=L.length?`<div class="grid">${L.map((k,n)=>{const b=best(k),a=alt(k);return `<div class="card in" style="--i:${n}"><div class="r"><label class="c" style="margin:0"><input type="checkbox" ${S.chk[k]?'checked':''} onchange="chk('${k}')"><span style="${S.chk[k]?'text-decoration:line-through;color:#8a9a91':''}">${ING[k]}</span></label><b>₺${cost(k)}</b></div><div class="sub">Gerekli: ${Math.round(need(k))} ${PK[k][1]} · ${pk(k)} paket (${PK[k][0]} ${PK[k][1]})</div><div class="r" style="margin-top:6px"><span class="sub">${P[b][1]}</span>${tag(st(b))}</div>${a!=null?`<div class="r" style="margin-top:8px"><span class="sub">Daha ekonomik: ${P[a][1]} · ₺${P[a][4]}</span><button class="s" onclick="pick('${k}',${a})">Seç</button></div>`:''}</div>`}).join('')}</div>`:'<div class="card" style="margin-top:18px;text-align:center;padding:30px;color:var(--m)">Plandan gelen malzemeler, haftalık plan oluşturulunca burada görünür.</div>';
+return `<h2>Alışveriş listesi</h2><div class="card in" style="margin:18px 0"><div class="r"><span class="sub">Tahmini toplam / bütçe</span><b>₺${tot} / ₺${S.budget}</b></div><div class="bar ${over?'over':''}" style="margin-top:10px"><i style="width:${Math.min(100,pc)}%"></i></div><div class="sub" style="margin-top:8px">${over?`⚠ Bütçeyi ₺${tot-S.budget} aşıyor. Daha ekonomik ürünleri aşağıdan seçebilirsiniz.`:`Bütçenin %${pc}'i kullanıldı, kalan ₺${S.budget-tot}.`}</div><div class="sub" style="margin-top:4px">Alınan: ₺${sp} · Alınacak: ₺${tot-sp}</div></div>${items}
+<h2 style="margin-top:28px">Eklediğim ürünler</h2><div class="grid">${S.man.map((m,i)=>`<div class="card"><div class="r"><label class="c" style="margin:0"><input type="checkbox" ${m.c?'checked':''} onchange="mchk(${i})"><span style="${m.c?'text-decoration:line-through;color:#8a9a91':''}">${esc(m.n)}</span></label><b>₺${m.p}</b></div><button class="s" style="margin-top:8px" onclick="mdel(${i})">Sil</button></div>`).join('')}<div class="card"><input id="mn" type="text" maxlength="40" placeholder="Ürün adı" aria-label="Ürün adı"><input id="mp" type="number" min="0" step="0.5" placeholder="Fiyat (₺)" aria-label="Fiyat" style="margin:8px 0"><button class="p" onclick="madd()">Listeye ekle</button></div></div><p class="sub" style="margin-top:14px">Miktarlar hane büyüklüğüne göre ölçeklenir ve tam pakete yuvarlanır. Fiyatlar örnektir.</p>`}
 function vcard(v,i,n){const id=yt(v.id),ok=!!id;return `<div class="card lift in" style="--i:${n}" ${ok?`onclick="openV(${i})" tabindex="0" onkeydown="if(event.key=='Enter')openV(${i})"`:''}>${ok?`<div class="vt" style="background-image:url(https://i.ytimg.com/vi/${id}/hqdefault.jpg)"></div>`:'<div class="ph">Video eklenecek<br>(kodda VIDEOS listesine YouTube kimliğini yazın)</div><div style="height:10px"></div>'}<h3>${esc(v.t)}</h3><div class="sub">${esc(v.d)}</div></div>`}
 function vVideo(){return `<h2>Videolar</h2><p class="sub">Çölyak ve glutensiz yaşam hakkında seçilmiş videolar. Tıklayınca burada açılır.</p><div class="grid">${VIDEOS.map((v,i)=>vcard(v,i,i)).join('')}</div>`}
 function vHane(){const r=req(),rs=[r.g&&'Çölyak (gluten)',r.l&&'Laktoz'].filter(Boolean);
@@ -145,11 +242,19 @@ return `<h2>Hane</h2><p class="sub">Uygulanan kısıtlar: <b>${rs.length?rs.join
 <div class="card in" style="--i:${S.members.length}"><input id="nn" type="text" placeholder="Yeni üye adı" aria-label="Yeni üye adı"><div><label class="c"><input id="nc" type="checkbox">Çölyak</label><label class="c"><input id="nl" type="checkbox">Laktoz</label></div><button class="p" onclick="addM()">Üye ekle</button></div></div>
 <h2 style="margin-top:28px">Haftalık bütçe (₺)</h2><div style="max-width:240px;margin-top:8px"><input type="number" min="0" value="${S.budget}" aria-label="Haftalık bütçe" onchange="bud(this.value)"></div>
 <h2 style="margin-top:28px">Evdeki malzemeler</h2><p class="sub">İşaretlenenler listeye eklenmez, plan bunları öncelikler.</p><div style="margin-top:8px">${Object.keys(ING).map(k=>`<button class="chip ${S.pantry.includes(k)?'on':''}" onclick="pan('${k}')">${ING[k]}</button>`).join('')}</div>`}
-function sheetR(){const i=S.openR;return `<div class="sheet" onclick="if(event.target===this)cls()"><div role="dialog" aria-label="${esc(RC[i][0])}">${tile(i)}<div class="r"><h2 style="margin:0">${esc(RC[i][0])}</h2><button class="x" aria-label="Kapat" onclick="cls()">×</button></div><div class="r" style="margin:6px 0 12px"><span class="sub">${RC[i][3]} dk</span>${tag(recSt(i))}</div><p style="margin:0 0 14px">${esc(RC[i][2])}</p><h3 style="margin-bottom:8px">Malzemeler ve ürünler</h3>${RC[i][1].map(k=>{const b=best(k);return `<div class="box"><div class="r"><b>${ING[k]}</b>${tag(ingSt(k))}</div>${S.pantry.includes(k)?'<div class="sub">Evde var. Etiketini yine de kontrol edin.</div>':`<select aria-label="${ING[k]} ürünü" onchange="pick('${k}',this.value)" style="margin-top:8px">${ids(k).map(p=>`<option value="${p}" ${p==b?'selected':''}>${P[p][1]} · ₺${P[p][4]} · ${LB[st(p)]}</option>`).join('')}</select>`}</div>`}).join('')}<div class="r" style="gap:10px;margin-top:14px"><select id="ad" aria-label="Gün seç">${DAY.map((d,n)=>`<option value="${n}">${d}</option>`).join('')}</select><button class="p" style="white-space:nowrap" onclick="addDay()">Plana ekle</button></div></div></div>`}
+function sheetR(){const i=S.openR,r=RC[i],id=yt(r[8]),t0=ytT(r[8]);return `<div class="sheet" onclick="if(event.target===this)cls()"><div role="dialog" aria-label="${esc(r[0])}">${tile(i)}<div class="r"><h2 style="margin:0">${esc(r[0])}</h2><button class="x" aria-label="Kapat" onclick="cls()">×</button></div><div class="r" style="margin:6px 0 12px"><span class="sub">${r[3]} dk · ${r[4]} kişilik</span>${tag(recSt(i))}</div><p style="margin:0 0 14px">${esc(r[2])}</p>
+<div class="note">Ürün bilgileri örnek veridir, gerçek ürün doğrulaması değildir. Satın almadan önce paket etiketini mutlaka kontrol edin.</div>
+<h3 style="margin-bottom:8px">Malzemeler (${r[4]} kişilik)</h3>${r[5].map(a=>{const k=a[0],b=best(k);return `<div class="box"><div class="r"><b>${ING[k]}</b>${tag(ingSt(k))}</div><div style="font-size:14px;margin-top:2px">${esc(a[2])}</div>${S.pantry.includes(k)?'<div class="info">Evde var. Etiketini yine de kontrol edin.</div>':`<select aria-label="${ING[k]} ürünü" onchange="pick('${k}',this.value)" style="margin-top:8px">${ids(k).map(p=>`<option value="${p}" ${p==b?'selected':''}>${P[p][1]} · ₺${P[p][4]} · ${LB[st(p)]}</option>`).join('')}</select><div class="info">İçindekiler: ${esc(P[b][6])} · ${xt(b)}<br>${SRC}</div>`}</div>`}).join('')}
+<div class="box"><b>Ek malzemeler</b><div class="sub">${esc(r[7])}. Baharat ve sos gibi ürünlerde gluten/laktoz için etiketi kontrol edin.</div></div>
+<h3 style="margin:16px 0 4px">Yapılışı</h3><ol class="st">${r[6].map(s=>`<li>${esc(s)}</li>`).join('')}</ol>
+<h3 style="margin-bottom:8px">Tarif videosu</h3>${id?`<iframe class="vf" loading="lazy" src="https://www.youtube-nocookie.com/embed/${id}?rel=0${t0?'&start='+t0:''}" title="${esc(r[0])} videosu" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe>`:'<div class="ph">Video eklenecek<br>(kodda bu tarifin R(...) satırındaki video alanına YouTube linkini yazın)</div>'}
+<div class="r" style="gap:10px;margin-top:16px"><select id="ad" aria-label="Gün seç">${DAY.map((d,n)=>`<option value="${n}">${d}</option>`).join('')}</select><button class="p" style="white-space:nowrap" onclick="addDay()">Plana ekle</button></div></div></div>`}
 function sheetV(){const v=VIDEOS[S.vid],id=yt(v.id),t0=ytT(v.id);return `<div class="sheet" onclick="if(event.target===this)cls()"><div role="dialog" aria-label="${esc(v.t)}"><div class="r" style="margin-bottom:12px"><h3>${esc(v.t)}</h3><button class="x" aria-label="Kapat" onclick="cls()">×</button></div><iframe class="vf" src="https://www.youtube-nocookie.com/embed/${id}?rel=0&autoplay=1${t0?'&start='+t0:''}" title="${esc(v.t)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe><p class="sub" style="margin-top:10px">${esc(v.d)}</p></div></div>`}
 function draw(){['home','tarif','plan','liste','video','hane'].forEach(t=>{const b=$('#t-'+t);b.className=S.tab==t?'on':'';S.tab==t?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current')});
+const o=$('#m .sheet>div'),y=o?o.scrollTop:0;
 const v=$('#v');v.className='';void v.offsetWidth;v.className='view';v.innerHTML=({home:vHome,tarif:vTarif,plan:vPlan,liste:vListe,video:vVideo,hane:vHane})[S.tab]();
-$('#m').innerHTML=S.openR!=null?sheetR():(S.vid!=null&&yt(VIDEOS[S.vid].id)?sheetV():'')}
+$('#m').innerHTML=S.openR!=null?sheetR():(S.vid!=null&&yt(VIDEOS[S.vid].id)?sheetV():'');
+const n=$('#m .sheet>div');if(n&&y)n.scrollTop=y}
 draw();
 </script>
 </body>
