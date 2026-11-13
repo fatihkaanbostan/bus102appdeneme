@@ -1,0 +1,156 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Güvenli Sofra</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:wght@500;600&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{--b:#1F4D3A;--bg:#FBF8F3;--l:#E4DED2;--m:#4A5B52;--t:#E6EFE9;--a:#B8641A}
+*{box-sizing:border-box}
+body{margin:0;font-family:'Plus Jakarta Sans',system-ui,sans-serif;background:var(--bg);color:#17231D;line-height:1.5}
+h1,h2,h3{font-family:'Fraunces',Georgia,serif;font-weight:600;margin:0;letter-spacing:-.01em}
+.sub{font-size:13px;color:var(--m)}
+#side{position:fixed;inset:0 auto 0 0;width:230px;background:#fff;border-right:1px solid var(--l);padding:22px 14px;display:flex;flex-direction:column;gap:4px}
+.logo{font-family:'Fraunces',serif;font-size:22px;font-weight:600;color:var(--b);padding:0 10px 18px}
+#side button{display:flex;align-items:center;gap:10px;text-align:left;border:0;background:none;padding:12px 14px;border-radius:12px;font-size:15px;font-weight:500;color:var(--m);cursor:pointer;font-family:inherit;transition:background .2s,color .2s,transform .15s}
+#side button:hover{background:var(--t)}#side button:active{transform:scale(.98)}
+#side button.on{background:var(--t);color:var(--b);font-weight:700}
+.dot{width:8px;height:8px;border-radius:50%;background:currentColor;opacity:.5}.on .dot{opacity:1}
+.fn{margin-top:auto;font-size:11.5px;color:#6B7A72;padding:10px}
+main{margin-left:230px;padding:32px 36px 60px;max-width:1100px}
+.view{animation:fade .35s ease both}
+@keyframes fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes up{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.in{animation:up .55s cubic-bezier(.2,.7,.2,1) both;animation-delay:calc(var(--i,0)*70ms)}
+h2{font-size:28px;margin-bottom:4px}h3{font-size:18px}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:16px;margin-top:18px}
+.card{background:#fff;border:1px solid var(--l);border-radius:20px;padding:18px;transition:transform .25s,box-shadow .25s}
+.lift{cursor:pointer}.lift:hover{transform:translateY(-4px);box-shadow:0 14px 30px rgba(31,77,58,.12)}
+.hero{background:linear-gradient(135deg,#1F4D3A,#2C6B51);color:#fff;border:0;grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;padding:26px}
+.hero h2{color:#fff}.hero .sub{color:#CFE0D5}
+.r{display:flex;justify-content:space-between;align-items:center;gap:8px}
+.tag{font-size:11px;font-weight:700;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.ok{background:#DDF0E3;color:#17603A}.warn{background:#FCE9CF;color:#8A4A0B}.no{background:#F8DEDA;color:#8C2A1C}.home{background:#EEE9DE;color:#4A5B52}
+button.p{background:var(--b);color:#fff;border:0;border-radius:99px;min-height:44px;padding:0 22px;font-weight:600;font-size:15px;cursor:pointer;font-family:inherit;transition:transform .15s,background .2s}
+button.p:hover{background:#163A2B}button.p:active,button.s:active{transform:scale(.97)}
+.hero button.p{background:#F3C77E;color:#17231D}
+button.s{background:none;border:1.5px solid var(--b);color:var(--b);border-radius:99px;min-height:36px;padding:0 14px;font-weight:600;font-size:13px;cursor:pointer;font-family:inherit;transition:transform .15s,background .2s}
+button.s:hover{background:var(--t)}
+button.x{background:none;border:0;color:#8C2A1C;font-size:22px;cursor:pointer;min-width:44px;min-height:44px}
+.chip{display:inline-block;border:1.5px solid var(--l);background:#fff;color:var(--m);border-radius:99px;padding:7px 14px;font-size:13px;margin:3px 4px 0 0;cursor:pointer;font-family:inherit;transition:all .2s}
+.chip.on{background:var(--t);border-color:var(--b);color:var(--b);font-weight:600}
+input[type=text],input[type=number],input[type=search],select{width:100%;min-height:44px;border:1.5px solid var(--l);border-radius:12px;padding:0 12px;font-size:15px;font-family:inherit;background:#fff}
+input:focus,select:focus{outline:2px solid var(--a);outline-offset:1px}
+label.c{display:inline-flex;align-items:center;gap:6px;margin-right:14px;font-size:14px;min-height:44px}
+.tile{height:96px;border-radius:14px;margin:-4px -4px 12px;display:flex;align-items:flex-end;padding:10px 12px;font-family:'Fraunces',serif;font-size:40px;color:rgba(23,35,29,.55);overflow:hidden;position:relative}
+.bar{height:10px;background:#EEE9DE;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--b);border-radius:99px;transition:width .8s cubic-bezier(.2,.7,.2,1)}.bar.over i{background:#B3341F}
+.ring circle{fill:none;stroke-width:9}.ring .bg{stroke:#EEE9DE}.ring .fg{stroke:var(--b);stroke-linecap:round;transform:rotate(-90deg);transform-origin:50% 50%;transition:stroke-dashoffset 1s cubic-bezier(.2,.7,.2,1)}
+.ph{border:2px dashed #CFC8B8;border-radius:16px;min-height:150px;display:flex;align-items:center;justify-content:center;text-align:center;padding:16px;color:var(--m);font-size:13px;background:#fff}
+.vt{aspect-ratio:16/9;border-radius:14px;background:#17231D center/cover;position:relative;margin-bottom:10px;overflow:hidden}
+.vt:after{content:"";position:absolute;left:50%;top:50%;width:54px;height:54px;margin:-27px;border-radius:50%;background:rgba(255,255,255,.92) url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath fill='%231F4D3A' d='M9 7l9 5-9 5z'/%3E%3C/svg%3E") center/26px no-repeat;transition:transform .25s}
+.lift:hover .vt:after{transform:scale(1.12)}
+.sheet{position:fixed;inset:0;background:rgba(10,25,18,.5);display:flex;align-items:flex-end;justify-content:center;z-index:20;animation:bg .25s ease both}
+@keyframes bg{from{opacity:0}to{opacity:1}}
+.sheet>div{background:var(--bg);width:100%;max-width:620px;max-height:90vh;overflow:auto;border-radius:24px 24px 0 0;padding:22px;animation:sl .35s cubic-bezier(.2,.8,.2,1) both}
+@keyframes sl{from{transform:translateY(40px);opacity:0}to{transform:none;opacity:1}}
+@media(min-width:700px){.sheet{align-items:center}.sheet>div{border-radius:24px}}
+.vf{aspect-ratio:16/9;width:100%;border:0;border-radius:14px;background:#000}
+.toast{position:fixed;left:50%;bottom:90px;transform:translateX(-50%);background:#17231D;color:#fff;padding:12px 20px;border-radius:99px;font-size:14px;z-index:30;animation:up .3s both}
+.box{background:#fff;border:1px solid var(--l);border-radius:14px;padding:12px;margin-bottom:10px}
+@media(max-width:860px){#side{inset:auto 0 0 0;width:100%;flex-direction:row;padding:0 0 env(safe-area-inset-bottom);border-right:0;border-top:1px solid var(--l);z-index:10}.logo,.fn{display:none}#side button{flex:1;flex-direction:column;gap:2px;padding:10px 2px;font-size:11.5px;border-radius:0;text-align:center}.dot{display:none}main{margin:0;padding:22px 16px 96px}h2{font-size:24px}.toast{bottom:84px}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<nav id="side" aria-label="Ana menü"><div class="logo">Güvenli Sofra</div>
+<button id="t-home" onclick="tab('home')"><span class="dot"></span>Ana sayfa</button>
+<button id="t-tarif" onclick="tab('tarif')"><span class="dot"></span>Tarifler</button>
+<button id="t-plan" onclick="tab('plan')"><span class="dot"></span>Plan</button>
+<button id="t-liste" onclick="tab('liste')"><span class="dot"></span>Liste</button>
+<button id="t-video" onclick="tab('video')"><span class="dot"></span>Videolar</button>
+<button id="t-hane" onclick="tab('hane')"><span class="dot"></span>Hane</button>
+<div class="fn">Ürün ve fiyat verileri örnektir. Tıbbi tavsiye değildir; etiketleri her zaman kontrol edin.</div></nav>
+<main id="v"></main><div id="m"></div>
+<script>
+// ===== VERİ (ÖRNEK) =====
+const ING={pirinc:'Pirinç',mercimek:'Kırmızı mercimek',tavuk:'Tavuk göğsü',yumurta:'Yumurta',makarna:'Makarna',peynir:'Beyaz peynir',yogurt:'Yoğurt',nohut:'Nohut',barbunya:'Barbunya',sebze:'Karışık sebze',zeytinyagi:'Zeytinyağı'};
+// [malzeme, ad, gluten, laktoz, fiyat]  f=içermez(doğrulanmış) c=içerir u=bilgi yok
+const P=[['pirinc','Pirinç · Ürün 1','f','f',55],['pirinc','Pirinç · Ürün 2','u','f',42],['mercimek','Mercimek · Ürün 1','f','f',48],['mercimek','Mercimek · Ürün 2','u','f',36],['tavuk','Tavuk göğsü · Ürün 1','f','f',140],['tavuk','Marine tavuk · Ürün 2','c','f',120],['yumurta','Yumurta 10\'lu · Ürün 1','f','f',70],['makarna','Makarna · Ürün 1','c','f',30],['makarna','Glutensiz makarna · Ürün 2','f','f',85],['makarna','Glutensiz makarna · Ürün 3','u','f',65],['peynir','Beyaz peynir · Ürün 1','f','c',110],['peynir','Laktozsuz peynir · Ürün 2','f','f',150],['peynir','Beyaz peynir · Ürün 3','u','c',95],['yogurt','Yoğurt · Ürün 1','f','c',60],['yogurt','Laktozsuz yoğurt · Ürün 2','f','f',85],['nohut','Nohut · Ürün 1','f','f',50],['nohut','Nohut · Ürün 2','u','f',38],['barbunya','Barbunya · Ürün 1','f','f',58],['sebze','Donmuş sebze · Ürün 1','u','f',45],['sebze','Donmuş sebze · Ürün 2','f','f',60],['zeytinyagi','Zeytinyağı · Ürün 1','f','f',320]];
+// [ad, malzemeler, yapılış, süre(dk)]
+const RC=[['Mercimek çorbası',['mercimek','sebze','zeytinyagi'],'Mercimeği ve sebzeyi haşlayın, zeytinyağıyla pişirip blenderdan geçirin.',30],['Fırın tavuk, pirinç pilavı',['tavuk','pirinc','sebze'],'Tavuğu sebzeyle fırınlayın, pilavı yanında servis edin.',45],['Sebzeli omlet',['yumurta','sebze','peynir'],'Sebzeyi soteleyin, yumurta ve peyniri ekleyip pişirin.',15],['Zeytinyağlı barbunya',['barbunya','sebze','zeytinyagi'],'Barbunyayı sebzeyle zeytinyağında pişirin, soğuk servis edin.',35],['Nohutlu pilav',['nohut','pirinc','zeytinyagi'],'Haşlanmış nohutu pilava karıştırın.',30],['Peynirli makarna',['makarna','peynir'],'Makarnayı haşlayıp peynirle karıştırın.',20],['Sebzeli makarna',['makarna','sebze','zeytinyagi'],'Makarnayı haşlayın, sebzeyle zeytinyağında soteleyin.',25],['Yoğurtlu tavuk, pilav',['tavuk','yogurt','pirinc'],'Haşlanmış tavuğu pilav ve yoğurtla servis edin.',40]];
+// VİDEOLAR: id alanına YouTube linkini ya da 11 karakterlik video kimliğini yazabilirsiniz.
+const VIDEOS=[{id:'https://www.youtube.com/watch?v=yiNTqUU-h6w&t=6s',t:'Çapraz bulaşmadan korunma',d:'Mutfakta güvenli hazırlık'},{id:'https://youtu.be/R-o-83k8dP0?si=bOJaBMtltsBi4H5Y',t:'Ürün etiketi nasıl okunur?',d:'Gizli gluten kaynakları'},{id:'https://youtu.be/F3nw8P-Te64?si=mjJV5USr2CGRbS2R',t:'Glutensiz mutfak düzeni',d:'Ortak mutfakta ayrım'},{id:'https://youtu.be/EZdi3J3ARaQ?si=i7HnQb3YVHxObYW8',t:'Haftalık menü hazırlığı',d:'Pratik planlama'}];
+const yt=s=>{s=String(s||'');const m=s.match(/(?:youtu\.be\/|[?&]v=|embed\/|shorts\/)([\w-]{11})/)||s.match(/^([\w-]{11})$/);return m?m[1]:''};
+const ytT=s=>{const m=String(s||'').match(/[?&#]t=(\d+)/);return m?m[1]:0};
+const DAY=['Pazartesi','Salı','Çarşamba','Perşembe','Cuma','Cumartesi','Pazar'],LB={ok:'Doğrulanmış',warn:'Bilgi yetersiz',no:'Uygun değil',home:'Evde var'},RK={ok:0,warn:1,no:2};
+// ===== DURUM =====
+const $=s=>document.querySelector(s),esc=t=>String(t).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+let S=(()=>{try{const x=JSON.parse(localStorage.getItem('gs2'));if(x&&x.plan&&x.plan.length==7)return Object.assign(x,{openR:null,vid:null,q:'',f:'all'})}catch(e){}return{members:[{n:'Efe',c:1,l:1}],budget:1500,pantry:[],plan:Array(7).fill(null),sel:{},chk:{},tab:'home',openR:null,vid:null,q:'',f:'all'}})();
+const save=()=>{try{localStorage.setItem('gs2',JSON.stringify(S))}catch(e){}};
+const req=()=>({g:S.members.some(m=>m.c),l:S.members.some(m=>m.l)});
+function st(p){const r=req(),g=P[p][2],l=P[p][3];if(r.g&&g=='c'||r.l&&l=='c')return'no';if(r.g&&g=='u'||r.l&&l=='u')return'warn';return'ok'}
+const ids=k=>P.map((_,i)=>i).filter(i=>P[i][0]==k);
+function best(k){const a=ids(k);if(S.sel[k]!=null&&a.includes(S.sel[k]))return S.sel[k];return a.sort((x,y)=>RK[st(x)]-RK[st(y)]||P[x][4]-P[y][4])[0]}
+const ingSt=k=>S.pantry.includes(k)?'home':st(best(k));
+const recSt=i=>RC[i][1].map(ingSt).map(x=>x=='home'?'ok':x).sort((a,b)=>RK[b]-RK[a])[0];
+const okR=()=>RC.map((_,i)=>i).filter(i=>recSt(i)=='ok');
+const tag=s=>`<span class="tag ${s}">${LB[s]}</span>`;
+const hasPlan=()=>S.plan.some(x=>x!=null);
+const listItems=()=>{const a=[];S.plan.forEach(i=>i!=null&&RC[i][1].forEach(k=>{if(!S.pantry.includes(k)&&!a.includes(k))a.push(k)}));return a};
+const total=()=>listItems().reduce((a,k)=>a+P[best(k)][4],0);
+const tile=i=>{const h=140+i*22;return `<div class="tile" style="background:linear-gradient(135deg,hsl(${h} 38% 88%),hsl(${h+25} 42% 76%))">${esc(RC[i][0][0])}</div>`};
+function toast(t){const e=document.createElement('div');e.className='toast';e.textContent=t;document.body.appendChild(e);setTimeout(()=>e.remove(),2200)}
+// ===== EYLEMLER =====
+function reset(){S.plan=Array(7).fill(null);S.sel={};S.chk={}}
+function gen(){const o=okR(),sc=i=>RC[i][1].filter(k=>S.pantry.includes(k)).length+Math.random();o.sort((a,b)=>sc(b)-sc(a));if(!o.length){toast('Bu hane için uygun doğrulanmış tarif yok');return}S.plan=Array.from({length:7},(_,d)=>o[d%o.length]);S.chk={};save();toast('Haftalık plan hazır');tab('plan')}
+function swap(d){const o=okR().filter(i=>i!=S.plan[d]);if(o.length){S.plan[d]=o[Math.floor(Math.random()*o.length)];save();draw()}}
+function del(d){S.plan[d]=null;save();draw()}
+function tab(t){S.tab=t;S.openR=null;S.vid=null;save();draw();scrollTo(0,0)}
+function addM(){const n=$('#nn').value.trim();if(!n)return;S.members.push({n:n.slice(0,20),c:$('#nc').checked?1:0,l:$('#nl').checked?1:0});reset();save();draw()}
+function tm(i,f){S.members[i][f]=S.members[i][f]?0:1;reset();save();draw()}
+function rm(i){if(S.members.length<2)return;S.members.splice(i,1);reset();save();draw()}
+function bud(v){S.budget=Math.max(0,Number(v)||0);save();draw()}
+function pan(k){const i=S.pantry.indexOf(k);i<0?S.pantry.push(k):S.pantry.splice(i,1);S.plan=Array(7).fill(null);S.chk={};save();draw()}
+function pick(k,v){S.sel[k]=Number(v);save();draw()}
+function chk(k){S.chk[k]=!S.chk[k];save();draw()}
+function openR(i){S.openR=i;draw()}
+function openV(i){S.vid=i;draw()}
+function cls(){S.openR=null;S.vid=null;draw()}
+function addDay(){const d=Number($('#ad').value);S.plan[d]=S.openR;save();S.openR=null;toast(DAY[d]+' gününe eklendi');draw()}
+function fl(){const e=$('#rl');if(e)e.innerHTML=rlist()}
+document.addEventListener('keydown',e=>{if(e.key=='Escape')cls()});
+// ===== EKRANLAR =====
+function vHome(){const L=listItems(),tot=total(),pc=S.budget?Math.round(tot/S.budget*100):0,C=2*Math.PI*38,off=C*(1-Math.min(1,pc/100)),td=(new Date().getDay()+6)%7,tr=S.plan[td],r=req(),rs=[r.g&&'Çölyak',r.l&&'Laktoz'].filter(Boolean);
+return `<div class="grid">
+<div class="card hero in" style="--i:0"><div><h2>Merhaba</h2><p class="sub" style="max-width:420px;margin:6px 0 0">${hasPlan()?'Haftalık planın hazır. Bugünün menüsüne ve alışveriş listene göz at.':'Haneni tanımla, sana uygun haftalık planı birlikte oluşturalım.'}</p></div><button class="p" onclick="${hasPlan()?"tab('plan')":'gen()'}">${hasPlan()?'Planı aç':'Plan oluştur'}</button></div>
+<div class="card in" style="--i:1"><div class="sub">Bugün · ${DAY[td]}</div>${tr!=null?`<h3 style="margin:6px 0 10px">${esc(RC[tr][0])}</h3><div class="r">${tag(recSt(tr))}<button class="s" onclick="openR(${tr})">Tarif</button></div>`:'<p style="margin:8px 0 12px;color:var(--m)">Bugün için tarif seçilmemiş.</p><button class="s" onclick="tab(\'tarif\')">Tarif seç</button>'}</div>
+<div class="card in r" style="--i:2"><div><div class="sub">Haftalık bütçe</div><h3 style="margin:6px 0">₺${tot} / ₺${S.budget}</h3><div class="sub">${L.length?`%${pc} kullanıldı`:'Liste boş'}</div></div><svg class="ring" width="92" height="92" viewBox="0 0 92 92" role="img" aria-label="Bütçe kullanımı %${pc}"><circle class="bg" cx="46" cy="46" r="38"/><circle class="fg" cx="46" cy="46" r="38" stroke-dasharray="${C}" stroke-dashoffset="${off}" ${pc>100?'style="stroke:#B3341F"':''}/></svg></div>
+<div class="card in" style="--i:3"><div class="sub">Hane</div><h3 style="margin:6px 0">${S.members.length} kişi</h3><div class="sub">Kısıtlar: ${rs.length?rs.join(', '):'yok'} · Uygun tarif: ${okR().length}/${RC.length}</div><button class="s" style="margin-top:10px" onclick="tab('hane')">Düzenle</button></div>
+</div><div class="r" style="margin-top:30px"><h2>Önerilen videolar</h2><button class="s" onclick="tab('video')">Tümü</button></div><div class="grid">${VIDEOS.slice(0,3).map((v,i)=>vcard(v,i,i)).join('')}</div>`}
+function rlist(){const q=S.q.trim().toLowerCase(),a=RC.map((_,i)=>i).filter(i=>RC[i][0].toLowerCase().includes(q)&&(S.f=='all'||(S.f=='ok'&&recSt(i)=='ok')||(S.f=='pan'&&RC[i][1].some(k=>S.pantry.includes(k)))));
+return a.length?a.map((i,n)=>`<div class="card lift in" style="--i:${n}" onclick="openR(${i})" tabindex="0" onkeydown="if(event.key=='Enter')openR(${i})">${tile(i)}<h3>${esc(RC[i][0])}</h3><div class="r" style="margin-top:8px"><span class="sub">${RC[i][3]} dk</span>${tag(recSt(i))}</div></div>`).join(''):'<p class="sub">Eşleşen tarif yok.</p>'}
+function vTarif(){const F=[['all','Tümü'],['ok','Hanem için uygun'],['pan','Evdeki malzemeyle']];return `<h2>Tarifler</h2><p class="sub">Etiketler, hane profilinize ve seçili ürünlere göre değişir.</p><div style="margin:16px 0 4px"><input type="search" placeholder="Tarif ara" aria-label="Tarif ara" value="${esc(S.q)}" oninput="S.q=this.value;fl()"></div><div>${F.map(f=>`<button class="chip ${S.f==f[0]?'on':''}" onclick="S.f='${f[0]}';draw()">${f[1]}</button>`).join('')}</div><div class="grid" id="rl">${rlist()}</div>`}
+function vPlan(){const o=okR().length;if(!hasPlan())return `<h2>Haftalık plan</h2><div class="card" style="margin-top:18px;text-align:center;padding:36px"><p style="color:var(--m)">${o?'Henüz plan oluşturulmadı.':'Bu hane profiline uygun doğrulanmış tarif bulunamadı.'}</p>${o?'<button class="p" style="margin-top:12px" onclick="gen()">Plan oluştur</button>':''}</div>`;
+const td=(new Date().getDay()+6)%7;return `<div class="r"><h2>Haftalık plan</h2><button class="s" onclick="gen()">Yeniden oluştur</button></div><p class="sub">Bilgisi yetersiz veya uygun olmayan ürün içeren tarifler otomatik plana alınmaz.</p><div class="grid">${S.plan.map((i,d)=>`<div class="card in" style="--i:${d};${d==td?'border-color:var(--b);border-width:2px':''}"><div class="sub">${DAY[d]}${d==td?' · Bugün':''}</div>${i==null?'<p style="margin:8px 0 12px;color:var(--m)">Boş</p><button class="s" onclick="tab(\'tarif\')">Tarif ekle</button>':`<h3 style="margin:6px 0 10px">${esc(RC[i][0])}</h3><div class="r">${tag(recSt(i))}<span class="sub">${RC[i][3]} dk</span></div><div style="margin-top:12px;display:flex;gap:6px;flex-wrap:wrap"><button class="s" onclick="openR(${i})">Malzemeler</button><button class="s" onclick="swap(${d})">Değiştir</button><button class="s" onclick="del(${d})">Kaldır</button></div>`}</div>`).join('')}</div>`}
+function vListe(){const L=listItems();if(!L.length)return '<h2>Alışveriş listesi</h2><div class="card" style="margin-top:18px;text-align:center;padding:36px;color:var(--m)">Liste, haftalık plan oluşturulunca hazırlanır.</div>';
+const tot=total(),pc=S.budget?Math.round(tot/S.budget*100):0,over=tot>S.budget;
+return `<h2>Alışveriş listesi</h2><div class="card in" style="margin:18px 0"><div class="r"><span class="sub">Tahmini toplam / bütçe</span><b>₺${tot} / ₺${S.budget}</b></div><div class="bar ${over?'over':''}" style="margin-top:10px"><i style="width:${Math.min(100,pc)}%"></i></div><div class="sub" style="margin-top:8px">${over?`Bütçeyi ₺${tot-S.budget} aşıyor. Ürün seçimini tarif ekranından değiştirebilirsiniz.`:`Bütçenin %${pc}'i kullanıldı, kalan ₺${S.budget-tot}.`}</div></div>
+<div class="grid">${L.map((k,n)=>{const b=best(k);return `<div class="card in" style="--i:${n}"><div class="r"><label class="c" style="margin:0"><input type="checkbox" ${S.chk[k]?'checked':''} onchange="chk('${k}')"><span style="${S.chk[k]?'text-decoration:line-through;color:#8a9a91':''}">${ING[k]}</span></label><b>₺${P[b][4]}</b></div><div class="r" style="margin-top:6px"><span class="sub">${P[b][1]}</span>${tag(st(b))}</div></div>`}).join('')}</div><p class="sub" style="margin-top:14px">Her malzeme için bir paket hesaplanır. Fiyatlar örnektir.</p>`}
+function vcard(v,i,n){const id=yt(v.id),ok=!!id;return `<div class="card lift in" style="--i:${n}" ${ok?`onclick="openV(${i})" tabindex="0" onkeydown="if(event.key=='Enter')openV(${i})"`:''}>${ok?`<div class="vt" style="background-image:url(https://i.ytimg.com/vi/${id}/hqdefault.jpg)"></div>`:'<div class="ph">Video eklenecek<br>(kodda VIDEOS listesine YouTube kimliğini yazın)</div><div style="height:10px"></div>'}<h3>${esc(v.t)}</h3><div class="sub">${esc(v.d)}</div></div>`}
+function vVideo(){return `<h2>Videolar</h2><p class="sub">Çölyak ve glutensiz yaşam hakkında seçilmiş videolar. Tıklayınca burada açılır.</p><div class="grid">${VIDEOS.map((v,i)=>vcard(v,i,i)).join('')}</div>`}
+function vHane(){const r=req(),rs=[r.g&&'Çölyak (gluten)',r.l&&'Laktoz'].filter(Boolean);
+return `<h2>Hane</h2><p class="sub">Uygulanan kısıtlar: <b>${rs.length?rs.join(', '):'yok'}</b>. Profil değişince plan sıfırlanır.</p><div class="grid">${S.members.map((m,i)=>`<div class="card in" style="--i:${i}"><div class="r"><b>${esc(m.n)}</b><button class="x" aria-label="${esc(m.n)} üyesini sil" onclick="rm(${i})">×</button></div><button class="chip ${m.c?'on':''}" onclick="tm(${i},'c')">Çölyak</button><button class="chip ${m.l?'on':''}" onclick="tm(${i},'l')">Laktoz</button></div>`).join('')}
+<div class="card in" style="--i:${S.members.length}"><input id="nn" type="text" placeholder="Yeni üye adı" aria-label="Yeni üye adı"><div><label class="c"><input id="nc" type="checkbox">Çölyak</label><label class="c"><input id="nl" type="checkbox">Laktoz</label></div><button class="p" onclick="addM()">Üye ekle</button></div></div>
+<h2 style="margin-top:28px">Haftalık bütçe (₺)</h2><div style="max-width:240px;margin-top:8px"><input type="number" min="0" value="${S.budget}" aria-label="Haftalık bütçe" onchange="bud(this.value)"></div>
+<h2 style="margin-top:28px">Evdeki malzemeler</h2><p class="sub">İşaretlenenler listeye eklenmez, plan bunları öncelikler.</p><div style="margin-top:8px">${Object.keys(ING).map(k=>`<button class="chip ${S.pantry.includes(k)?'on':''}" onclick="pan('${k}')">${ING[k]}</button>`).join('')}</div>`}
+function sheetR(){const i=S.openR;return `<div class="sheet" onclick="if(event.target===this)cls()"><div role="dialog" aria-label="${esc(RC[i][0])}">${tile(i)}<div class="r"><h2 style="margin:0">${esc(RC[i][0])}</h2><button class="x" aria-label="Kapat" onclick="cls()">×</button></div><div class="r" style="margin:6px 0 12px"><span class="sub">${RC[i][3]} dk</span>${tag(recSt(i))}</div><p style="margin:0 0 14px">${esc(RC[i][2])}</p><h3 style="margin-bottom:8px">Malzemeler ve ürünler</h3>${RC[i][1].map(k=>{const b=best(k);return `<div class="box"><div class="r"><b>${ING[k]}</b>${tag(ingSt(k))}</div>${S.pantry.includes(k)?'<div class="sub">Evde var. Etiketini yine de kontrol edin.</div>':`<select aria-label="${ING[k]} ürünü" onchange="pick('${k}',this.value)" style="margin-top:8px">${ids(k).map(p=>`<option value="${p}" ${p==b?'selected':''}>${P[p][1]} · ₺${P[p][4]} · ${LB[st(p)]}</option>`).join('')}</select>`}</div>`}).join('')}<div class="r" style="gap:10px;margin-top:14px"><select id="ad" aria-label="Gün seç">${DAY.map((d,n)=>`<option value="${n}">${d}</option>`).join('')}</select><button class="p" style="white-space:nowrap" onclick="addDay()">Plana ekle</button></div></div></div>`}
+function sheetV(){const v=VIDEOS[S.vid],id=yt(v.id),t0=ytT(v.id);return `<div class="sheet" onclick="if(event.target===this)cls()"><div role="dialog" aria-label="${esc(v.t)}"><div class="r" style="margin-bottom:12px"><h3>${esc(v.t)}</h3><button class="x" aria-label="Kapat" onclick="cls()">×</button></div><iframe class="vf" src="https://www.youtube-nocookie.com/embed/${id}?rel=0&autoplay=1${t0?'&start='+t0:''}" title="${esc(v.t)}" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen referrerpolicy="strict-origin-when-cross-origin"></iframe><p class="sub" style="margin-top:10px">${esc(v.d)}</p></div></div>`}
+function draw(){['home','tarif','plan','liste','video','hane'].forEach(t=>{const b=$('#t-'+t);b.className=S.tab==t?'on':'';S.tab==t?b.setAttribute('aria-current','page'):b.removeAttribute('aria-current')});
+const v=$('#v');v.className='';void v.offsetWidth;v.className='view';v.innerHTML=({home:vHome,tarif:vTarif,plan:vPlan,liste:vListe,video:vVideo,hane:vHane})[S.tab]();
+$('#m').innerHTML=S.openR!=null?sheetR():(S.vid!=null&&yt(VIDEOS[S.vid].id)?sheetV():'')}
+draw();
+</script>
+</body>
+</html>
